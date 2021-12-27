@@ -1,0 +1,37 @@
+.loader-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 160px;
+    height: 160px;
+    animation: appear 1.2 ease infinite;
+}
+
+.loader-container .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border: solid 4px transparent;
+    border-top-color: #0dac77;
+    border-left-color: #0dac77;
+    border-radius: 50%;
+    animation: loader 1.2s ease-in-out infinite;
+}
+
+.loader-container .loader-2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    border: solid 4px transparent;
+    border-bottom-color: #a5004a;
+    border-right-color: #a5004a;
+    border-radius: 50%;
+    animation: loader-2 1.2s ease-in-out infinite;
+}

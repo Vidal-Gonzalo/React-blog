@@ -1,0 +1,11 @@
+.post-list, .create-post-page, .individual-post {
+    width: 100vw;
+    height: auto;
+    background-color: rgb(0, 0, 0);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 40px;
+    flex-direction: column;
+}
