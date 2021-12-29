@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home";
 import DetailPage from "./pages/DetailPage/DetailPage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
 import { AuthContextProvider } from "./context/Auth";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/post/:id" element={<DetailPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>
       </AuthContextProvider>

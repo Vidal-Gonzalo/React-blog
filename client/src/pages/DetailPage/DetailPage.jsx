@@ -43,7 +43,7 @@ function DetailPage() {
     <div className="post-detail mt-5">
       {error ? <p>Ha habido un error</p> : null}
       {post.title !== "" || !loading ? (
-        <PostDetail post={post} comments={comments} newComments={setComments} />
+        <PostDetail post={post} comments={comments} setComments={setComments} />
       ) : (
         <Loader />
       )}

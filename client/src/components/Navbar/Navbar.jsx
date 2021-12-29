@@ -1,16 +1,27 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/Auth";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 function Navbar() {
-  const { authState } = useContext(AuthContext);
+  const { authState, setAuthState } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setAuthState({ ...authState, status: false });
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <NavLink to="/" className="navbar-brand">
-          Inicio
-        </NavLink>
+        {authState.status ? (
+          <NavLink to="/" className="navbar-brand">
+            Inicio
+          </NavLink>
+        ) : null}
         <button
           className="navbar-toggler"
           type="button"
@@ -24,17 +35,9 @@ function Navbar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <NavLink
-                to="/createpost"
-                className="nav-link active"
-                aria-current="page"
-              >
-                Crear publicación
-              </NavLink>
-            </li>
-            {!authState && (
+            {!authState.status ? (
               <>
+                {" "}
                 <li className="nav-item">
                   <NavLink
                     to="/login"
@@ -52,7 +55,26 @@ function Navbar() {
                   >
                     Registrarse
                   </NavLink>
+                </li>{" "}
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    to="/createpost"
+                    className="nav-link active"
+                    aria-current="page"
+                  >
+                    Crear publicación
+                  </NavLink>
                 </li>
+                <h3 className="text-white me-3">{authState.username}</h3>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => logout("/login")}
+                >
+                  Logout
+                </button>
               </>
             )}
           </ul>

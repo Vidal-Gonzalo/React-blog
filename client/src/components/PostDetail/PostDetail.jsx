@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./PostDetail.css";
+import { AuthContext } from "../../context/Auth";
 
-function PostDetail({ post, comments, newComments }) {
+function PostDetail({ post, comments, setComments }) {
   const [newComment, setNewComment] = useState("");
+  let navigate = useNavigate();
+  const { authState } = useContext(AuthContext);
   const { id } = useParams();
+
+  const deletePost = (id) => {
+    Axios.delete(`http://localhost:3001/posts/${id}`, {
+      headers: {
+        accessToken: localStorage.getItem("accessToken"),
+      },
+    });
+    navigate("/");
+  };
 
   const addComment = () => {
     Axios.post(
@@ -20,6 +32,7 @@ function PostDetail({ post, comments, newComments }) {
         },
       }
     ).then((response) => {
+      console.log(response);
       if (response.data.error) {
         console.log(response.data.error);
       } else {
@@ -27,14 +40,27 @@ function PostDetail({ post, comments, newComments }) {
         const commentToAdd = {
           commentBody: newComment,
           username: response.data.username,
+          id: comments.id,
         };
-        newComments([...comments, commentToAdd]);
+        setComments([...comments, commentToAdd]);
       }
     });
     setNewComment("");
   };
 
-  console.log(comments);
+  const deleteComment = (id) => {
+    Axios.delete(`http://localhost:3001/comments/${id}`, {
+      headers: {
+        accessToken: localStorage.getItem("accessToken"),
+      },
+    }).then(() => {
+      setComments(
+        comments.filter((val) => {
+          return val.id !== id;
+        })
+      );
+    });
+  };
 
   return (
     <div className="container">
@@ -44,7 +70,18 @@ function PostDetail({ post, comments, newComments }) {
             <div className="detail-card">
               <h3 className="detail-card-title">{post.title}</h3>
               <p className="detail-card-body">{post.postText}</p>
-              <p className="detail-card-footer">{post.username}</p>
+              <p className="detail-card-footer">
+                {post.username} <br />
+                {authState.username === post.username && (
+                  <button
+                    className="btn btn-danger btn-sm"
+                    type="submit"
+                    onClick={() => deletePost(post.id)}
+                  >
+                    Eliminar artículo
+                  </button>
+                )}
+              </p>
             </div>
           </div>
           <div className="col-6">
@@ -67,7 +104,9 @@ function PostDetail({ post, comments, newComments }) {
                 <button
                   type="submit"
                   className="btn btn-primary mt-2"
-                  onClick={addComment}
+                  onClick={() => {
+                    addComment();
+                  }}
                 >
                   Enviar comentario
                 </button>
@@ -82,6 +121,16 @@ function PostDetail({ post, comments, newComments }) {
                         <label>
                           Nombre de usuario: <strong>{element.username}</strong>
                         </label>
+                        {authState.username === element.username ? (
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => {
+                              deleteComment(element.id);
+                            }}
+                          >
+                            X
+                          </button>
+                        ) : null}
                       </div>
                     );
                   })

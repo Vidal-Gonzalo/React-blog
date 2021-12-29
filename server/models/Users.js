@@ -10,12 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  //Asocia el comentario al Post que fue comentado
-  // Users.associate = (models) => {
-  //   Users.hasMany(models.Posts, {
-  //     onDelete: "cascade",
-  //   });
-  // };
+  Users.associate = (models) => {
+    Users.hasMany(models.Likes, {
+      onDelete: "cascade",
+    });
+  };
 
   return Users;
 };
