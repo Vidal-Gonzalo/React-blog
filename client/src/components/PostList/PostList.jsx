@@ -2,7 +2,7 @@ import React from "react";
 import Axios from "axios";
 import Post from "../Post/Post";
 
-function PostList({ posts, setPosts, likedPosts, setLikedPosts }) {
+function PostList({ posts, setPosts, likedPosts, setLikedPosts, fromProfile }) {
   const likeAPost = (postId) => {
     Axios.post(
       "http://localhost:3001/likes",
@@ -50,6 +50,7 @@ function PostList({ posts, setPosts, likedPosts, setLikedPosts }) {
               post={element}
               likeAPost={likeAPost}
               likedPosts={likedPosts}
+              fromProfile={fromProfile}
             />
           </div>
         );

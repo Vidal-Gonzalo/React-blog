@@ -44,4 +44,14 @@ router.get("/validate", validateToken, (req, res) => {
   res.json(req.user);
 });
 
+router.get("/profileinfo/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const profileInfo = await Users.findByPk(id, {
+    attributes: { exclude: ["password"] },
+  }); //Retribuye toda la información excluyendo la contraseña del usuario
+
+  res.json(profileInfo);
+});
+
 module.exports = router;

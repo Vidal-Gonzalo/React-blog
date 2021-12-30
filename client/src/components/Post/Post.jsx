@@ -1,11 +1,15 @@
 import React from "react";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Post.css";
 
-function Post({ post, likeAPost, likedPosts }) {
+function Post({ post, likeAPost, likedPosts, fromProfile }) {
   let navigate = useNavigate();
+
+  const goToProfile = (id) => {
+    navigate(`/profile/${id}`);
+  };
 
   return (
     <div className="individual-post">
@@ -22,16 +26,22 @@ function Post({ post, likeAPost, likedPosts }) {
       </div>
       <div className="footer">
         <div className="footer-username me-auto">
-          <p className="username">{post.username}</p>
+          <Link className="username" to={`/profile/${post.UserId}`}>
+            {post.username}
+          </Link>
         </div>
         <div className="footer-likes ms-auto">
-          {likedPosts.includes(post.id) ? (
-            <ThumbUpAltIcon onClick={() => likeAPost(post.id)} />
-          ) : (
-            <ThumbUpOffAltIcon onClick={() => likeAPost(post.id)} />
-          )}
+          {!fromProfile ? (
+            <>
+              {likedPosts.includes(post.id) ? (
+                <ThumbUpAltIcon onClick={() => likeAPost(post.id)} />
+              ) : (
+                <ThumbUpOffAltIcon onClick={() => likeAPost(post.id)} />
+              )}
 
-          <label>{post.Likes.length}</label>
+              <label>{post.Likes.length}</label>
+            </>
+          ) : null}
         </div>
       </div>
     </div>

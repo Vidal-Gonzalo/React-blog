@@ -9,6 +9,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
 import { AuthContextProvider } from "./context/Auth";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/post/:id" element={<DetailPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile/:id" element={<Profile />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>

@@ -42,8 +42,6 @@ function Home() {
     }
   }, [authState]);
 
-  console.log(authState.status);
-
   return (
     <section className="home">
       {!loading ? (
@@ -52,6 +50,7 @@ function Home() {
           setPosts={setPosts}
           likedPosts={likedPosts}
           setLikedPosts={setLikedPosts}
+          fromProfile={false}
         /> //Proximamente lo voy a poner en context//
       ) : (
         <Loader />
